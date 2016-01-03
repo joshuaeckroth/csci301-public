@@ -96,6 +96,8 @@ class scheduler:
         return
 
     def move_to_running(self, expected):
+        if(self.proc_info[self.curr_proc][PROC_STATE] != expected):
+            print self.proc_info, self.curr_proc, self.proc_info[self.curr_proc][PROC_STATE], expected
         assert(self.proc_info[self.curr_proc][PROC_STATE] == expected)
         self.proc_info[self.curr_proc][PROC_STATE] = STATE_RUNNING
         return
@@ -215,7 +217,7 @@ class scheduler:
                         if self.process_switch_behavior == SCHED_SWITCH_ON_END:
                             # this means the process that issued the io should be run
                             self.next_proc(pid)
-                        if self.get_num_runnable() == 1:
+                        elif self.get_num_runnable() == 1:
                             # this is the only thing to run: so run it
                             self.next_proc(pid)
                     self.check_if_done()
